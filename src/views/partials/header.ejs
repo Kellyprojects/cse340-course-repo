@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CSE 340 Service Network connects volunteers with community service opportunities.">
+    <title><%= title %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header">
+        <div class="site-header__inner">
+            <a class="site-brand" href="/">CSE 340 Service Network</a>
+            <nav aria-label="Primary">
+                <ul>
+                    <li><a href="/" class="<%= title === 'Home' ? 'active' : '' %>">Home</a></li>
+                    <li><a href="/organizations" class="<%= title === 'Our Partner Organizations' ? 'active' : '' %>">Organizations</a></li>
+                    <li><a href="/projects" class="<%= title === 'Service Projects' ? 'active' : '' %>">Projects</a></li>
+                    <li><a href="/categories" class="<%= title === 'Service Project Categories' ? 'active' : '' %>">Categories</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
