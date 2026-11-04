@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-hidden="true">
+  <rect width="120" height="120" rx="18" fill="#e6f4ee"/>
+  <rect x="22" y="30" width="76" height="60" rx="8" fill="#0f766e"/>
+  <text x="60" y="66" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, sans-serif" font-size="16" font-weight="700">WMA</text>
+</svg>

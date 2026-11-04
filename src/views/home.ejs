@@ -4,15 +4,51 @@
     <h1><%= title %></h1>
 
     <section class="hero">
-        <h2>Welcome to the CSE 340 Service Network!</h2>
-        <p>Our mission is to promote service across the world by connecting volunteers with service opportunities in their community.</p>
+        <h2>Keep every LGA clean, neat, and healthy</h2>
+        <p>CleanState helps the Federal Ministry of Environment, state ministries, waste authorities, and environmental health officers track refuse, drainage, and community health across Nigeria.</p>
         <p class="hero__actions">
-            <a class="button" href="/projects">Find a project</a>
-            <a class="button button--secondary" href="/organizations">Meet our partners</a>
+            <a class="button" href="/projects">View service projects</a>
+            <a class="button button--secondary" href="/organizations">Meet partner ministries</a>
         </p>
     </section>
 
-    <img class="main-logo" src="/images/cse340-service-network.png" alt="CSE 340 Service Network Logo">
+    <img class="main-logo" src="/images/cleanstate-logo.svg" alt="CleanState logo">
+
+    <section class="featured">
+        <h2>This week across the states</h2>
+        <ul class="kpi-grid">
+            <% stateSnapshot.forEach((item) => { %>
+                <li>
+                    <p class="kpi-grid__label"><%= item.label %></p>
+                    <p class="kpi-grid__value"><%= item.value %></p>
+                </li>
+            <% }); %>
+        </ul>
+    </section>
+
+    <section class="featured">
+        <h2>State and LGA neatness scorecard</h2>
+        <ul class="score-list">
+            <% districtScores.forEach((district) => { %>
+                <li>
+                    <h3><%= district.name %></h3>
+                    <p class="badge">Score <%= district.score %></p>
+                    <p><%= district.focus %></p>
+                </li>
+            <% }); %>
+        </ul>
+    </section>
+
+    <section class="featured">
+        <h2>Nigeria service map</h2>
+        <p>Find a state or LGA on the map, then open Projects for sanitation, market cleanup, or primary health centre support.</p>
+        <iframe
+            class="live-map"
+            title="Map of Nigeria"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=2.67,4.24,14.68,13.89&amp;layer=mapnik"
+            loading="lazy">
+        </iframe>
+    </section>
 </main>
 
 <%- include('partials/footer') %>

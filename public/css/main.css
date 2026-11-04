@@ -1,17 +1,17 @@
 :root {
-    --color-bg: #f4f1ea;
+    --color-bg: #eef4f1;
     --color-surface: #ffffff;
-    --color-ink: #1c2a28;
-    --color-muted: #3f4f4c;
-    --color-brand: #12352d;
-    --color-brand-strong: #0c261f;
-    --color-accent: #9a3412;
-    --color-accent-hover: #7c2d12;
-    --color-border: #d7d1c4;
+    --color-ink: #14241f;
+    --color-muted: #3c514a;
+    --color-brand: #0f3d32;
+    --color-brand-strong: #0a2a23;
+    --color-accent: #b45309;
+    --color-accent-hover: #92400e;
+    --color-border: #cddad4;
     --color-focus: #0f766e;
-    --shadow: 0 10px 30px rgba(18, 53, 45, 0.08);
+    --shadow: 0 10px 30px rgba(15, 61, 50, 0.1);
     --radius: 16px;
-    --content-width: 68rem;
+    --content-width: 70rem;
     --font-sans: "Source Sans 3", "Segoe UI", sans-serif;
     --font-serif: "Source Serif 4", Georgia, serif;
 }
@@ -32,8 +32,8 @@ body {
     display: flex;
     flex-direction: column;
     background:
-        radial-gradient(circle at top right, rgba(180, 83, 9, 0.08), transparent 28rem),
-        linear-gradient(180deg, #eef3ef 0%, var(--color-bg) 18rem);
+        radial-gradient(circle at top right, rgba(15, 118, 110, 0.12), transparent 28rem),
+        linear-gradient(180deg, #e3eee8 0%, var(--color-bg) 18rem);
     color: var(--color-ink);
     font-family: var(--font-sans);
     font-size: 1.0625rem;
@@ -43,6 +43,10 @@ body {
 img {
     max-width: 100%;
     height: auto;
+}
+
+iframe {
+    border: 0;
 }
 
 a {
@@ -79,8 +83,8 @@ a:focus-visible,
 
 .site-header {
     background: var(--color-brand);
-    color: #f7f4ee;
-    box-shadow: 0 4px 18px rgba(12, 38, 31, 0.18);
+    color: #f4faf7;
+    box-shadow: 0 4px 18px rgba(10, 42, 35, 0.2);
 }
 
 .site-header__inner {
@@ -95,12 +99,22 @@ a:focus-visible,
 }
 
 .site-brand {
-    color: #f7f4ee;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: #f4faf7;
     font-family: var(--font-serif);
-    font-size: 1.35rem;
+    font-size: 1.2rem;
     font-weight: 700;
-    letter-spacing: 0.01em;
     text-decoration: none;
+}
+
+.site-brand img {
+    width: 2.6rem;
+    height: 2.6rem;
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 0.2rem;
 }
 
 .site-brand:hover {
@@ -120,7 +134,7 @@ nav a {
     display: inline-block;
     padding: 0.45rem 0.8rem;
     border-radius: 999px;
-    color: #f7f4ee;
+    color: #f4faf7;
     font-weight: 700;
     text-decoration: none;
     white-space: nowrap;
@@ -128,7 +142,7 @@ nav a {
 
 nav a:hover,
 nav a.active {
-    background: rgba(247, 244, 238, 0.14);
+    background: rgba(244, 250, 247, 0.14);
     color: #fde68a;
 }
 
@@ -157,17 +171,18 @@ h2 {
 }
 
 h3 {
-    margin: 0 0 0.4rem;
-    font-size: 1.2rem;
+    margin: 1rem 0 0.4rem;
+    font-size: 1.15rem;
 }
 
 p {
     margin: 0 0 1rem;
     color: var(--color-muted);
-    max-width: 42rem;
+    max-width: 44rem;
 }
 
-.hero {
+.hero,
+.featured {
     padding: 1.75rem 1.8rem;
     margin-bottom: 2rem;
     background: var(--color-surface);
@@ -208,8 +223,8 @@ p {
 
 .main-logo {
     display: block;
-    width: min(100%, 22rem);
-    margin: 0 auto;
+    width: min(100%, 16rem);
+    margin: 0 auto 2rem;
     padding: 1rem;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
@@ -217,87 +232,118 @@ p {
     box-shadow: var(--shadow);
 }
 
+.live-map {
+    display: block;
+    width: 100%;
+    min-height: 22rem;
+    border-radius: 12px;
+}
+
+.kpi-grid,
+.score-list,
 .org-list,
 .project-list,
 .category-list {
     display: grid;
-    gap: 1.25rem;
+    gap: 1.15rem;
     margin: 1.5rem 0 0;
     padding: 0;
     list-style: none;
 }
 
-.org-list {
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+.kpi-grid {
+    grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
 }
 
-.org-list li,
-.project-list li,
-.category-list li {
+.score-list,
+.org-list,
+.project-list,
+.category-list {
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+}
+
+.kpi-grid > li,
+.score-list > li,
+.org-list > li,
+.project-list > li,
+.category-list > li {
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
+    padding: 1.2rem 1.25rem;
 }
 
-.org-list li {
+.kpi-grid__label,
+.kpi-grid__value {
+    margin: 0;
+    max-width: none;
+}
+
+.kpi-grid__label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-muted);
+}
+
+.kpi-grid__value {
+    margin-top: 0.35rem;
+    color: var(--color-brand-strong);
+    font-family: var(--font-serif);
+    font-size: 1.45rem;
+    font-weight: 700;
+}
+
+.org-list > li {
     display: flex;
     gap: 1rem;
-    align-items: center;
-    padding: 1.1rem 1.2rem;
+    align-items: flex-start;
 }
 
 .org-list img {
     width: 4.5rem;
     height: 4.5rem;
     object-fit: contain;
-    background: #f8f5ef;
+    background: #eef6f2;
     border: 1px solid var(--color-border);
     border-radius: 12px;
     padding: 0.35rem;
 }
 
 .org-list p,
-.project-list li {
-    margin: 0;
-    color: var(--color-ink);
-}
-
-.org-list strong,
-.category-list h2 {
-    color: var(--color-brand-strong);
-}
-
-.project-list,
-.category-list {
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-}
-
-.project-list li,
-.category-list li {
-    padding: 1.35rem 1.4rem;
-}
-
-.category-list h2 {
-    font-size: 1.35rem;
-}
-
+.score-list p,
 .category-list p,
 .project-list p {
-    margin: 0;
+    max-width: none;
+}
+
+.badge {
+    display: inline-block;
+    margin-bottom: 0.55rem;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    background: #e6f4ee;
+    color: var(--color-brand-strong);
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.requirement-list {
+    margin: 0.4rem 0 0;
+    padding-left: 1.2rem;
 }
 
 footer {
     margin-top: auto;
     padding: 1.25rem;
     background: var(--color-brand-strong);
-    color: #f7f4ee;
+    color: #f4faf7;
     text-align: center;
 }
 
 footer p {
     margin: 0 auto;
-    color: #f7f4ee;
+    color: #f4faf7;
 }
 
 @media (max-width: 860px) {
@@ -322,7 +368,8 @@ footer p {
         margin-top: 1.5rem;
     }
 
-    .hero {
+    .hero,
+    .featured {
         padding: 1.25rem;
     }
 }
