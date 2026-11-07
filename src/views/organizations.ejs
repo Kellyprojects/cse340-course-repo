@@ -7,8 +7,9 @@
         <% partnerOrganizations.forEach((organization) => { %>
             <li>
                 <img src="<%= organization.image %>" alt="<%= organization.alt %>">
-                <div>
-                    <p><strong><%= organization.name %></strong>: <%= organization.email %></p>
+                <div class="card-body">
+                    <h2><%= organization.name %></h2>
+                    <p class="card-email"><%= organization.email %></p>
                     <p><%= organization.summary %></p>
                 </div>
             </li>

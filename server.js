@@ -15,29 +15,29 @@ const partnerOrganizations = [
         name: 'Federal Ministry of Environment',
         email: 'environment@cleanstate.ng',
         summary: 'Sets national environmental policy, supports state ministries, and coordinates monthly environmental sanitation.',
-        image: '/images/epa-bureau.svg',
-        alt: 'Federal Ministry of Environment logo'
+        image: '/images/org-fme.jpg',
+        alt: 'Federal Ministry of Environment building'
     },
     {
         name: 'NESREA',
         email: 'nesrea@cleanstate.ng',
         summary: 'The National Environmental Standards and Regulations Enforcement Agency inspects dumpsites, factories, and pollution complaints.',
-        image: '/images/waste-authority.svg',
-        alt: 'NESREA logo'
+        image: '/images/org-nesrea.jpg',
+        alt: 'NESREA officers inspecting a site'
     },
     {
         name: 'State Waste Management Authority',
         email: 'waste@cleanstate.ng',
         summary: 'Runs refuse collection, dumpsite evacuation, and accredited waste operators in each state, including LAWMA-style services.',
-        image: '/images/sanitation-corps.svg',
-        alt: 'State Waste Management Authority logo'
+        image: '/images/org-waste.jpg',
+        alt: 'State waste trucks collecting refuse'
     },
     {
         name: 'State Ministry of Health',
         email: 'health@cleanstate.ng',
         summary: 'Works with primary health centres and environmental health officers on malaria control, flooding, and refuse-related illness.',
-        image: '/images/health-office.svg',
-        alt: 'State Ministry of Health logo'
+        image: '/images/org-health.jpg',
+        alt: 'State Ministry of Health clinic'
     }
 ];
 
@@ -45,6 +45,8 @@ const serviceProjects = [
     {
         name: 'Monthly Environmental Sanitation',
         category: 'Environmental',
+        image: '/images/category-environmental.jpg',
+        alt: 'Workers clearing gutters during environmental sanitation',
         summary: 'Clear gutters, blocked drainages, and roadside refuse dumps on environmental sanitation day before the rains.',
         requirements: [
             'Rain boots, gloves, and reflective jackets',
@@ -55,6 +57,8 @@ const serviceProjects = [
     {
         name: 'School and CDA Sanitation Talk',
         category: 'Educational',
+        image: '/images/category-educational.jpg',
+        alt: 'Students in a sanitation education class',
         summary: 'Teach pupils, NYSC members, and community development associations how to sort refuse and report illegal dumps.',
         requirements: [
             'Permission from the school or CDA chairman',
@@ -65,6 +69,8 @@ const serviceProjects = [
     {
         name: 'Market Union Refuse Collection',
         category: 'Community Service',
+        image: '/images/category-community.jpg',
+        alt: 'Community members cleaning a market',
         summary: 'Work with market unions and motor-park leaders to empty refuse bins daily and keep walkways open.',
         requirements: [
             'Market union or NURTW park chairman approval',
@@ -75,6 +81,8 @@ const serviceProjects = [
     {
         name: 'PHC Malaria and Flood Response',
         category: 'Health and Wellness',
+        image: '/images/category-health.jpg',
+        alt: 'Health workers at a primary health centre outreach',
         summary: 'Remove stagnant water after flooding, treat mosquito breeding spots, and send people to the nearest primary health centre.',
         requirements: [
             'Briefing from the State Ministry of Health',
@@ -87,19 +95,27 @@ const serviceProjects = [
 const serviceCategories = [
     {
         name: 'Environmental',
-        summary: 'Gutter clearing, drainage, dumpsite evacuation, and monthly environmental sanitation across LGAs.'
+        summary: 'Gutter clearing, drainage, dumpsite evacuation, and monthly environmental sanitation across LGAs.',
+        image: '/images/category-environmental.jpg',
+        alt: 'Workers clearing gutters and drainage'
     },
     {
         name: 'Educational',
-        summary: 'School, NYSC, and CDA talks on refuse sorting, illegal dumping, and keeping compounds neat.'
+        summary: 'School, NYSC, and CDA talks on refuse sorting, illegal dumping, and keeping compounds neat.',
+        image: '/images/category-educational.jpg',
+        alt: 'Classroom sanitation teaching session'
     },
     {
         name: 'Community Service',
-        summary: 'Market unions, motor parks, and street sweepers working with the state waste authority.'
+        summary: 'Market unions, motor parks, and street sweepers working with the state waste authority.',
+        image: '/images/category-community.jpg',
+        alt: 'Community members cleaning a market'
     },
     {
         name: 'Health and Wellness',
-        summary: 'Primary health centres and environmental health officers reducing malaria and refuse-related illness.'
+        summary: 'Primary health centres and environmental health officers reducing malaria and refuse-related illness.',
+        image: '/images/category-health.jpg',
+        alt: 'Primary health centre outreach'
     }
 ];
 

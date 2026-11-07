@@ -1,0 +1,379 @@
+W01 Coaching Session: Server-side Programming
+Student: Emmanuel
+Project: CleanState (CSE 340 Week 01)
+Duration: 32 minutes (7:06 AM – 7:38 AM)
+Note: This sample shows a complete session that covers all four required topics, with the student sharing a code snippet for each topic.
+
+--------------------------------------------------------------------------------
+[7:06 AM] Coach
+--------------------------------------------------------------------------------
+I am your Learning Coach and Software Mentor.
+
+Welcome! Just to be clear from the start, this is a coaching session, not a test. It is perfectly okay—and even encouraged—to say "I don't know" or "I made a mistake." That's the fastest way we'll learn today.
+
+This is a safe learning space. We will talk through your CleanState code together. What name should I use for you in this session?
+
+--------------------------------------------------------------------------------
+[7:06 AM] Emmanuel
+--------------------------------------------------------------------------------
+My name is Emmanuel.
+
+--------------------------------------------------------------------------------
+[7:07 AM] Coach
+--------------------------------------------------------------------------------
+Thanks, Emmanuel. Glad you are here. We can go slow, and you can say you are not sure any time.
+
+Let's start with Topic 1, Express routing. Please paste a route function from your server.js file, then tell me what happens when someone visits that URL.
+
+--------------------------------------------------------------------------------
+[7:08 AM] Emmanuel
+--------------------------------------------------------------------------------
+This is from organizations.ejs. The header is at the top and the footer is at the bottom:
+
+<%- include('partials/header') %>
+<main id="main-content">
+    <h1><%= title %></h1>
+    <p>These ministries and agencies handle environmental policy, refuse collection, dumpsite inspection, and primary health care.</p>
+    <ul class="org-list">
+        <% partnerOrganizations.forEach((organization) => { %>
+            <li>
+                <img src="<%= organization.image %>" alt="<%= organization.alt %>">
+                <div>
+                    <p><strong><%= organization.name %></strong>: <%= organization.email %></p>
+                    <p><%= organization.summary %></p>
+                </div>
+            </li>
+        <% }); %>
+    </ul>
+</main>
+<%- include('partials/footer') %>
+<%- include('partials/header') %> puts header.ejs on the page. <%- include('partials/footer') %> puts footer.ejs on the page.
+
+I used <%- only for those includes, because they are HTML. For the title and organization name I used <%= %>.
+
+Home, Projects, and Categories use the same includes, so I only change the nav or copyright in one place.Okay this is the organizations route from my server.js:
+
+```
+app.get('/organizations', async (req, res) => {
+    const title = 'Our Partner Organizations';
+    res.render('organizations', { title, partnerOrganizations });
+});
+```
+
+When somebody opens /organizations in the browser, Express checks the path and sees app.get for that path. Then this function runs. req is the request coming in and res is what we send back. I set the title, then res.render uses the organizations.ejs page and I pass the title and the list of partner organizations so the page can show the ministries.
+
+--------------------------------------------------------------------------------
+[7:09 AM] Coach
+--------------------------------------------------------------------------------
+Good start. Why did you use app.get for that route instead of some other method?
+
+--------------------------------------------------------------------------------
+[7:10 AM] Emmanuel
+--------------------------------------------------------------------------------
+Because the user is just opening the page, they are not submitting a form or sending data. GET is for reading a page. If it was a form post I would use app.post, but for Home, Organizations, Projects, and Categories they are only viewing, so I used app.get for all of them.
+
+--------------------------------------------------------------------------------
+[7:11 AM] Coach
+--------------------------------------------------------------------------------
+You have four of those GET routes. Walk me through how Express knows which one to run if someone clicks Projects in the nav.
+
+--------------------------------------------------------------------------------
+[7:12 AM] Emmanuel
+--------------------------------------------------------------------------------
+The nav link is href="/projects". Express looks at the URL path. It will not run the /organizations one because the path is different. It matches this one:
+
+```
+app.get('/projects', async (req, res) => {
+    const title = 'Service Projects';
+    res.render('projects', { title, serviceProjects });
+});
+```
+
+Same idea as organizations. Different path, different title, different data. Home is just '/' , then /organizations, /projects, and /categories. Each route renders its own ejs file.
+
+--------------------------------------------------------------------------------
+[7:13 AM] Coach
+--------------------------------------------------------------------------------
+What is the difference between res.render and res.send in this setup?
+
+--------------------------------------------------------------------------------
+[7:14 AM] Emmanuel
+--------------------------------------------------------------------------------
+res.send would just send text or HTML that I wrote inside server.js. res.render means Express should use the view engine, which I set to ejs, and build the page from the file in src/views. I did that because the assignment wants EJS pages, and also so I can reuse the header and footer. I pass the title as a variable so the header can put it in the tab.
+
+--------------------------------------------------------------------------------
+[7:15 AM] Coach
+--------------------------------------------------------------------------------
+Where do you tell Express to actually start listening for those routes?
+
+--------------------------------------------------------------------------------
+[7:16 AM] Emmanuel
+--------------------------------------------------------------------------------
+At the bottom of server.js:
+
+```
+app.listen(PORT, () => {
+    console.log(`Server is running at http://127.0.0.1:${PORT}`);
+    console.log(`Environment: ${NODE_ENV}`);
+});
+```
+
+PORT comes from process.env.PORT or 3000. On Render they give us PORT, so I should not hardcode it. After listen is running, then those app.get routes can work.
+
+--------------------------------------------------------------------------------
+[7:17 AM] Coach
+--------------------------------------------------------------------------------
+That covers Express routing well. Let's move to Topic 2, JavaScript language principles. Paste a JavaScript function from your project and tell me which language rules you were trying to follow in it.
+
+--------------------------------------------------------------------------------
+[7:18 AM] Emmanuel
+--------------------------------------------------------------------------------
+This is the home route. It is a JavaScript function too:
+
+```
+app.get('/', async (req, res) => {
+    const title = 'Home';
+    res.render('home', { title, stateSnapshot, districtScores });
+});
+```
+
+From the course we are supposed to use const, camelCase, arrow functions, async/await, and ESM. So I used const for title because I don't change it. The function is an arrow function. It is async. And at the top of the file I used import, not require.
+
+--------------------------------------------------------------------------------
+[7:19 AM] Coach
+--------------------------------------------------------------------------------
+Show me that import part as well. Why import instead of require?
+
+--------------------------------------------------------------------------------
+[7:20 AM] Emmanuel
+--------------------------------------------------------------------------------
+```
+import express from 'express';
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
+const PORT = process.env.PORT || 3000;
+
+const app = express();
+```
+
+package.json has "type": "module" so the file is ESM. require is the old CommonJS way. The assignment said use ESM so I used import. NODE_ENV and PORT are const too, and the names are camelCase.
+
+--------------------------------------------------------------------------------
+[7:21 AM] Coach
+--------------------------------------------------------------------------------
+You made the route async even though this week you are not waiting on a database. Why do that?
+
+--------------------------------------------------------------------------------
+[7:22 AM] Emmanuel
+--------------------------------------------------------------------------------
+The assignment said use async/await. I don't have a database yet so there is nothing to await inside the function right now. I still made it async so later in the course when we pull data I can await it in the same place. If I write it as a normal function now I would have to change it later.
+
+--------------------------------------------------------------------------------
+[7:23 AM] Coach
+--------------------------------------------------------------------------------
+If you later loaded partnerOrganizations from a database, where would await go, and what would go wrong if you forgot it?
+
+--------------------------------------------------------------------------------
+[7:24 AM] Emmanuel
+--------------------------------------------------------------------------------
+I would put it inside the route, before res.render. Like const partnerOrganizations = await somethingFromTheDatabase(). Then pass that to the view. If I forget await, I think I would be passing a Promise instead of the real list, and the page might be empty or error. I'm not 100% sure how the error would look, but I know the data would not be ready yet.
+
+--------------------------------------------------------------------------------
+[7:25 AM] Coach
+--------------------------------------------------------------------------------
+That is a fair answer, and you are right that the page would not get the real array. Why const instead of let or var for title?
+
+--------------------------------------------------------------------------------
+[7:26 AM] Emmanuel
+--------------------------------------------------------------------------------
+Because I don't reassign title. It stays 'Home' or 'Our Partner Organizations' for that request. The course said use const. var is the old one and it has function scope problems. let is if the value will change. So const is the one that matches the code standard.
+
+--------------------------------------------------------------------------------
+[7:27 AM] Coach
+--------------------------------------------------------------------------------
+Good. Topic 3 is EJS partials and EJS pages. Paste an EJS snippet from a page and from a partial, and explain how they work together.
+
+--------------------------------------------------------------------------------
+[7:28 AM] Emmanuel
+--------------------------------------------------------------------------------
+This is organizations.ejs, that is a page:
+
+```
+<%- include('partials/header') %>
+
+<main id="main-content">
+    <h1><%= title %></h1>
+    <p>These ministries and agencies handle environmental policy, refuse collection, dumpsite inspection, and primary health care.</p>
+    <ul class="org-list">
+        <% partnerOrganizations.forEach((organization) => { %>
+            <li>
+                <img src="<%= organization.image %>" alt="<%= organization.alt %>">
+                <div>
+                    <p><strong><%= organization.name %></strong>: <%= organization.email %></p>
+                    <p><%= organization.summary %></p>
+                </div>
+            </li>
+        <% }); %>
+    </ul>
+</main>
+
+<%- include('partials/footer') %>
+```
+
+And this is in the header partial:
+
+```
+<title><%= title %></title>
+```
+
+The page is the main content. The partials are the header and footer that every page shares. include puts them in. The route sends title, then the header puts that title in the browser tab, and the page also shows it in the h1.
+
+--------------------------------------------------------------------------------
+[7:29 AM] Coach
+--------------------------------------------------------------------------------
+Why did you use <%- for the includes but <%= for the title and organization name?
+
+--------------------------------------------------------------------------------
+[7:30 AM] Emmanuel
+--------------------------------------------------------------------------------
+The assignment said <%= %> for output, and <%- include() %> only for header and footer. <%- means don't escape it, just put the HTML in, which you need for include because header is real HTML. <%= escapes the text so if a name had a weird character it would still be safe. I didn't use <%- anywhere else.
+
+--------------------------------------------------------------------------------
+[7:31 AM] Coach
+--------------------------------------------------------------------------------
+What is in the footer partial, and why is that a partial instead of typing it on every page?
+
+--------------------------------------------------------------------------------
+[7:32 AM] Emmanuel
+--------------------------------------------------------------------------------
+```
+    <footer>
+        <p>&copy; <%= new Date().getFullYear() %> CleanState. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+```
+
+It has the copyright. If I type the header and footer in all four pages, then when I change the nav I have to edit four files. With partials I change header.ejs once and Home, Organizations, Projects, and Categories all update. Same for the copyright year.
+
+--------------------------------------------------------------------------------
+[7:33 AM] Coach
+--------------------------------------------------------------------------------
+How does the nav know which link is the current page?
+
+--------------------------------------------------------------------------------
+[7:34 AM] Emmanuel
+--------------------------------------------------------------------------------
+In the header I compared the title:
+
+```
+<li><a href="/" class="<%= title === 'Home' ? 'active' : '' %>">Home</a></li>
+<li><a href="/organizations" class="<%= title === 'Our Partner Organizations' ? 'active' : '' %>">Organizations</a></li>
+<li><a href="/projects" class="<%= title === 'Service Projects' ? 'active' : '' %>">Projects</a></li>
+<li><a href="/categories" class="<%= title === 'Service Project Categories' ? 'active' : '' %>">Categories</a></li>
+```
+
+Each route sends a different title. If the title matches, that link gets class active so the CSS can highlight it.
+
+--------------------------------------------------------------------------------
+[7:35 AM] Coach
+--------------------------------------------------------------------------------
+Last required topic, frontend CSS. Paste a CSS snippet you wrote and explain what it is doing for the site.
+
+--------------------------------------------------------------------------------
+[7:36 AM] Emmanuel
+--------------------------------------------------------------------------------
+My CSS is in public/css/main.css. This is the mobile part:
+
+```
+@media (max-width: 860px) {
+    .site-header__inner {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    nav ul {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: 100%;
+    }
+
+    nav a {
+        width: 100%;
+        text-align: center;
+        padding: 0.55rem 0.7rem;
+    }
+}
+```
+
+On a phone the header stacks instead of staying in one row, and the nav links become two columns so they are easier to tap. The assignment wanted professional, responsive, and accessible CSS.
+
+--------------------------------------------------------------------------------
+[7:37 AM] Coach
+--------------------------------------------------------------------------------
+How does that CSS file actually get to the browser? Why is it in public and not in src/views?
+
+--------------------------------------------------------------------------------
+[7:37 AM] Emmanuel
+--------------------------------------------------------------------------------
+Because the browser cannot read the views folder. Views are for EJS on the server. In server.js I have:
+
+```
+app.use(express.static(path.join(__dirname, 'public')));
+```
+
+That makes public files available. So in the header I can do href="/css/main.css" and images like /images/epa-bureau.svg. If I put the CSS next to the ejs files, the browser would not find it.
+
+--------------------------------------------------------------------------------
+[7:38 AM] Coach
+--------------------------------------------------------------------------------
+You mentioned accessible. Point to one CSS rule that helps with that, and tell me why you added it.
+
+--------------------------------------------------------------------------------
+[7:38 AM] Emmanuel
+--------------------------------------------------------------------------------
+I have a skip link and focus styles:
+
+```
+a:focus-visible,
+.button:focus-visible,
+.skip-link:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
+}
+
+.skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -100%;
+    z-index: 20;
+    padding: 0.75rem 1rem;
+    background: var(--color-surface);
+    color: var(--color-brand);
+    font-weight: 700;
+}
+
+.skip-link:focus {
+    top: 1rem;
+}
+```
+
+The skip link is hidden until you tab to it, then you can jump to main content. The outline is for keyboard users so they can see which link is selected. I also used variables for colors so the green and navy stay consistent.
+
+--------------------------------------------------------------------------------
+[7:38 AM] Coach
+--------------------------------------------------------------------------------
+We have now discussed all four required topics, and you shared a code snippet for each one:
+
+1. Express routing in server.js
+2. JavaScript language principles
+3. EJS partials and EJS pages
+4. Frontend CSS
+
+There is no pass or fail on this conversation. Completing it is having the discussion. Thanks, Emmanuel. You can save this transcript and upload it to Canvas.
+
+--------------------------------------------------------------------------------
+End of session
+--------------------------------------------------------------------------------

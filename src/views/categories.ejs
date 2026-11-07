@@ -6,9 +6,12 @@
     <ul class="category-list">
         <% serviceCategories.forEach((category) => { %>
             <li>
-                <h2><%= category.name %></h2>
-                <p><%= category.summary %></p>
-                <p><a class="button" href="/projects">View projects</a></p>
+                <img src="<%= category.image %>" alt="<%= category.alt %>">
+                <div class="card-body">
+                    <h2><%= category.name %></h2>
+                    <p><%= category.summary %></p>
+                    <p><a class="button" href="/projects">View projects</a></p>
+                </div>
             </li>
         <% }); %>
     </ul>
