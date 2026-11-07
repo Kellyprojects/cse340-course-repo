@@ -282,6 +282,9 @@ p {
 .project-list > li {
     display: flex;
     flex-direction: column;
+}
+
+.org-list > li {
     padding: 0;
 }
 

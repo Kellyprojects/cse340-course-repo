@@ -4,13 +4,10 @@
     <h1><%= title %></h1>
     <p>Browse service work by what your LGA, market, or community development association needs.</p>
     <ul class="category-list">
-        <% serviceCategories.forEach((category) => { %>
+        <% categories.forEach((category) => { %>
             <li>
-                <img src="<%= category.image %>" alt="<%= category.alt %>">
                 <div class="card-body">
                     <h2><%= category.name %></h2>
-                    <p><%= category.summary %></p>
-                    <p><a class="button" href="/projects">View projects</a></p>
                 </div>
             </li>
         <% }); %>

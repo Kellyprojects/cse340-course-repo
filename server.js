@@ -1,6 +1,10 @@
 import express from 'express';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import { testConnection } from './src/models/db.js';
+import { getAllOrganizations } from './src/models/organizations.js';
+import { getAllProjects } from './src/models/projects.js';
+import { getAllCategories } from './src/models/categories.js';
 
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
 const PORT = process.env.PORT || 3000;
@@ -9,115 +13,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-
-const partnerOrganizations = [
-    {
-        name: 'Federal Ministry of Environment',
-        email: 'environment@cleanstate.ng',
-        summary: 'Sets national environmental policy, supports state ministries, and coordinates monthly environmental sanitation.',
-        image: '/images/org-fme.jpg',
-        alt: 'Federal Ministry of Environment building'
-    },
-    {
-        name: 'NESREA',
-        email: 'nesrea@cleanstate.ng',
-        summary: 'The National Environmental Standards and Regulations Enforcement Agency inspects dumpsites, factories, and pollution complaints.',
-        image: '/images/org-nesrea.jpg',
-        alt: 'NESREA officers inspecting a site'
-    },
-    {
-        name: 'State Waste Management Authority',
-        email: 'waste@cleanstate.ng',
-        summary: 'Runs refuse collection, dumpsite evacuation, and accredited waste operators in each state, including LAWMA-style services.',
-        image: '/images/org-waste.jpg',
-        alt: 'State waste trucks collecting refuse'
-    },
-    {
-        name: 'State Ministry of Health',
-        email: 'health@cleanstate.ng',
-        summary: 'Works with primary health centres and environmental health officers on malaria control, flooding, and refuse-related illness.',
-        image: '/images/org-health.jpg',
-        alt: 'State Ministry of Health clinic'
-    }
-];
-
-const serviceProjects = [
-    {
-        name: 'Monthly Environmental Sanitation',
-        category: 'Environmental',
-        image: '/images/category-environmental.jpg',
-        alt: 'Workers clearing gutters during environmental sanitation',
-        summary: 'Clear gutters, blocked drainages, and roadside refuse dumps on environmental sanitation day before the rains.',
-        requirements: [
-            'Rain boots, gloves, and reflective jackets',
-            'Rakes, shovels, wheelbarrows, and refuse sacks',
-            'LGA environmental health officer on site'
-        ]
-    },
-    {
-        name: 'School and CDA Sanitation Talk',
-        category: 'Educational',
-        image: '/images/category-educational.jpg',
-        alt: 'Students in a sanitation education class',
-        summary: 'Teach pupils, NYSC members, and community development associations how to sort refuse and report illegal dumps.',
-        requirements: [
-            'Permission from the school or CDA chairman',
-            'Guides in English, Pidgin, Yoruba, Hausa, or Igbo',
-            'Attendance list for the LGA environment office'
-        ]
-    },
-    {
-        name: 'Market Union Refuse Collection',
-        category: 'Community Service',
-        image: '/images/category-community.jpg',
-        alt: 'Community members cleaning a market',
-        summary: 'Work with market unions and motor-park leaders to empty refuse bins daily and keep walkways open.',
-        requirements: [
-            'Market union or NURTW park chairman approval',
-            'Refuse bins from the state waste authority',
-            'Morning and evening collection shifts'
-        ]
-    },
-    {
-        name: 'PHC Malaria and Flood Response',
-        category: 'Health and Wellness',
-        image: '/images/category-health.jpg',
-        alt: 'Health workers at a primary health centre outreach',
-        summary: 'Remove stagnant water after flooding, treat mosquito breeding spots, and send people to the nearest primary health centre.',
-        requirements: [
-            'Briefing from the State Ministry of Health',
-            'Protective gear and PHC referral cards',
-            'Support from environmental health officers'
-        ]
-    }
-];
-
-const serviceCategories = [
-    {
-        name: 'Environmental',
-        summary: 'Gutter clearing, drainage, dumpsite evacuation, and monthly environmental sanitation across LGAs.',
-        image: '/images/category-environmental.jpg',
-        alt: 'Workers clearing gutters and drainage'
-    },
-    {
-        name: 'Educational',
-        summary: 'School, NYSC, and CDA talks on refuse sorting, illegal dumping, and keeping compounds neat.',
-        image: '/images/category-educational.jpg',
-        alt: 'Classroom sanitation teaching session'
-    },
-    {
-        name: 'Community Service',
-        summary: 'Market unions, motor parks, and street sweepers working with the state waste authority.',
-        image: '/images/category-community.jpg',
-        alt: 'Community members cleaning a market'
-    },
-    {
-        name: 'Health and Wellness',
-        summary: 'Primary health centres and environmental health officers reducing malaria and refuse-related illness.',
-        image: '/images/category-health.jpg',
-        alt: 'Primary health centre outreach'
-    }
-];
 
 const stateSnapshot = [
     { label: 'Cleanliness score', value: '86 / 100' },
@@ -146,21 +41,29 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/organizations', async (req, res) => {
+    const organizations = await getAllOrganizations();
     const title = 'Our Partner Organizations';
-    res.render('organizations', { title, partnerOrganizations });
+    res.render('organizations', { title, organizations });
 });
 
 app.get('/projects', async (req, res) => {
+    const projects = await getAllProjects();
     const title = 'Service Projects';
-    res.render('projects', { title, serviceProjects });
+    res.render('projects', { title, projects });
 });
 
 app.get('/categories', async (req, res) => {
+    const categories = await getAllCategories();
     const title = 'Service Project Categories';
-    res.render('categories', { title, serviceCategories });
+    res.render('categories', { title, categories });
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running at http://127.0.0.1:${PORT}`);
-    console.log(`Environment: ${NODE_ENV}`);
+app.listen(PORT, async () => {
+    try {
+        await testConnection();
+        console.log(`Server is running at http://127.0.0.1:${PORT}`);
+        console.log(`Environment: ${NODE_ENV}`);
+    } catch (error) {
+        console.error('Error connecting to the database:', error);
+    }
 });

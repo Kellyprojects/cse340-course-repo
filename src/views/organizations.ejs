@@ -4,13 +4,13 @@
     <h1><%= title %></h1>
     <p>These ministries and agencies handle environmental policy, refuse collection, dumpsite inspection, and primary health care.</p>
     <ul class="org-list">
-        <% partnerOrganizations.forEach((organization) => { %>
+        <% organizations.forEach((organization) => { %>
             <li>
-                <img src="<%= organization.image %>" alt="<%= organization.alt %>">
+                <img src="/images/<%= organization.logo_filename %>" alt="<%= organization.name %> logo">
                 <div class="card-body">
                     <h2><%= organization.name %></h2>
-                    <p class="card-email"><%= organization.email %></p>
-                    <p><%= organization.summary %></p>
+                    <p class="card-email"><%= organization.contact_email %></p>
+                    <p><%= organization.description %></p>
                 </div>
             </li>
         <% }); %>
